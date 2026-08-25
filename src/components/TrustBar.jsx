@@ -1,0 +1,65 @@
+import { motion } from 'framer-motion'
+import CountUp from './CountUp'
+import { DRIVER } from '../lib/constants'
+
+const STATS = [
+  { value: Number(DRIVER.stats.years), suffix: '+', label: 'Anos de experiência' },
+  {
+    value: Number(DRIVER.stats.trips.replace(/\D/g, '')),
+    suffix: '',
+    thousands: true,
+    label: 'Viagens realizadas',
+  },
+  { value: 10, suffix: ' mil+', label: 'Avaliações 5 estrelas' },
+  { value: 24, suffix: 'h', label: 'Disponibilidade' },
+]
+
+function TrustBar() {
+  return (
+    <section className="relative overflow-hidden border-y border-border bg-bg-alt/50 py-14">
+      <motion.div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[120px]"
+        animate={{ opacity: [0.4, 0.75, 0.4] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      <div className="relative mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 lg:grid-cols-4 lg:px-10">
+        {STATS.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 24, scale: 0.85 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{
+              duration: 0.6,
+              delay: i * 0.1,
+              ease: [0.34, 1.56, 0.64, 1],
+            }}
+            className="relative text-center"
+          >
+            <p className="text-3xl font-bold tracking-tight text-text sm:text-4xl">
+              <CountUp
+                value={stat.value}
+                suffix={stat.suffix}
+                thousands={stat.thousands}
+                duration={1.6 + i * 0.15}
+              />
+            </p>
+            <p className="mt-1 text-xs uppercase tracking-widest text-text-secondary sm:text-sm">
+              {stat.label}
+            </p>
+            <motion.span
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, delay: i * 0.1 + 1.4 }}
+              className="mx-auto mt-3 block h-px w-8 origin-center bg-accent/50"
+            />
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+export default TrustBar
