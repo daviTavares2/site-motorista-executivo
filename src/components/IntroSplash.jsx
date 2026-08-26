@@ -23,9 +23,13 @@ const flipStyle = {
   transformOrigin: 'center bottom',
 }
 
+const FONT_CHECKS = ['700 1em Montserrat', '800 1em Montserrat']
+const FONT_TIMEOUT = 1200
+
 function IntroSplash({ onFinish }) {
   const [stepIndex, setStepIndex] = useState(0)
   const [done, setDone] = useState(false)
+  const [ready, setReady] = useState(false)
 
   const showingPrefix = stepIndex < WORDS.length
 
@@ -36,7 +40,33 @@ function IntroSplash({ onFinish }) {
     }
   }, [])
 
+  // Wait for the Montserrat webfont to actually be loaded before showing any
+  // text — on a slow connection (common on mobile), Safari/WebKit renders a
+  // fallback font with different metrics first, which breaks this layout
+  // (words overlap/wrap wrong) and can look like the page is broken.
   useEffect(() => {
+    let cancelled = false
+    const markReady = () => {
+      if (!cancelled) setReady(true)
+    }
+
+    if (typeof document !== 'undefined' && document.fonts) {
+      Promise.race([
+        Promise.all(FONT_CHECKS.map((font) => document.fonts.load(font))),
+        new Promise((resolve) => setTimeout(resolve, FONT_TIMEOUT)),
+      ]).then(markReady)
+    } else {
+      markReady()
+    }
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!ready) return
+
     const isLast = stepIndex === WORDS.length
     const delay = isLast ? FINAL_HOLD : WORD_HOLD
 
@@ -50,7 +80,7 @@ function IntroSplash({ onFinish }) {
     }, delay)
 
     return () => clearTimeout(t)
-  }, [stepIndex, onFinish])
+  }, [ready, stepIndex, onFinish])
 
   const wordKey = showingPrefix ? WORDS[stepIndex] : FINAL_TEXT
   const wordText = showingPrefix ? WORDS[stepIndex] : FINAL_TEXT
@@ -68,14 +98,30 @@ function IntroSplash({ onFinish }) {
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      <p
-        className="relative flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6 py-10 text-center text-4xl font-bold tracking-tight text-text sm:text-5xl lg:text-6xl"
-        style={{ perspective: 900 }}
-      >
-        <AnimatePresence>
-          {showingPrefix && (
+      {ready && (
+        <p
+          className="relative flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6 py-10 text-center text-4xl font-bold tracking-tight text-text sm:text-5xl lg:text-6xl"
+          style={{ perspective: 900 }}
+        >
+          <AnimatePresence>
+            {showingPrefix && (
+              <motion.span
+                key="prefix"
+                initial={flip.initial}
+                animate={flip.animate}
+                exit={flip.exit}
+                transition={TRANSITION}
+                style={flipStyle}
+                className="inline-block"
+              >
+                {PREFIX}
+              </motion.span>
+            )}
+          </AnimatePresence>
+
+          <AnimatePresence mode="wait">
             <motion.span
-              key="prefix"
+              key={wordKey}
               initial={flip.initial}
               animate={flip.animate}
               exit={flip.exit}
@@ -83,25 +129,11 @@ function IntroSplash({ onFinish }) {
               style={flipStyle}
               className="inline-block"
             >
-              {PREFIX}
+              {wordText}
             </motion.span>
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={wordKey}
-            initial={flip.initial}
-            animate={flip.animate}
-            exit={flip.exit}
-            transition={TRANSITION}
-            style={flipStyle}
-            className="inline-block"
-          >
-            {wordText}
-          </motion.span>
-        </AnimatePresence>
-      </p>
+          </AnimatePresence>
+        </p>
+      )}
     </motion.div>
   )
 }
