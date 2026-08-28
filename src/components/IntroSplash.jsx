@@ -50,17 +50,30 @@ function IntroSplash({ onFinish }) {
       if (!cancelled) setReady(true)
     }
 
-    if (typeof document !== 'undefined' && document.fonts) {
-      Promise.race([
-        Promise.all(FONT_CHECKS.map((font) => document.fonts.load(font))),
-        new Promise((resolve) => setTimeout(resolve, FONT_TIMEOUT)),
-      ]).then(markReady, markReady)
-    } else {
+    // Some mobile in-app browsers (Instagram/WhatsApp webviews, etc.) expose
+    // a `document.fonts` object with a missing or non-conformant `load()`,
+    // which can throw synchronously instead of rejecting a promise — that
+    // throw would otherwise skip the `.then` below and strand the splash.
+    try {
+      if (typeof document !== 'undefined' && typeof document.fonts?.load === 'function') {
+        Promise.race([
+          Promise.all(FONT_CHECKS.map((font) => document.fonts.load(font))),
+          new Promise((resolve) => setTimeout(resolve, FONT_TIMEOUT)),
+        ]).then(markReady, markReady)
+      } else {
+        markReady()
+      }
+    } catch {
       markReady()
     }
 
+    // Absolute safety net: whatever the browser does with font loading above,
+    // never let the splash hide the site for longer than this.
+    const hardFallback = setTimeout(markReady, FONT_TIMEOUT + 1500)
+
     return () => {
       cancelled = true
+      clearTimeout(hardFallback)
     }
   }, [])
 
