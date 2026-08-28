@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 const MARGIN_PX = 80
-const POLL_MS = 400
+const POLL_MS = 500
 
 // Drives "has this scrolled into view" off plain scroll/resize events and
 // getBoundingClientRect, instead of IntersectionObserver (via Framer
@@ -9,36 +9,46 @@ const POLL_MS = 400
 // project doesn't fire reliably, leaving whileInView-style reveals stuck.
 // A direct position check on a well-supported event can't silently fail to
 // fire the way an observer callback can.
+//
+// A single shared scroll/resize listener and polling interval track every
+// element that wants this, instead of each one setting up its own — a page
+// with a few dozen reveal-on-scroll elements would otherwise run that many
+// independent listeners and timers, which adds up on a phone.
+const watched = new Set()
+let started = false
+
+function checkAll() {
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+  for (const entry of watched) {
+    const rect = entry.el.getBoundingClientRect()
+    if (rect.top < viewportHeight - entry.marginPx && rect.bottom > 0) {
+      entry.onVisible()
+    }
+  }
+}
+
+function ensureStarted() {
+  if (started) return
+  started = true
+  window.addEventListener('scroll', checkAll, { passive: true })
+  window.addEventListener('resize', checkAll)
+  setInterval(checkAll, POLL_MS)
+}
+
 export function useInViewport(marginPx = MARGIN_PX) {
   const ref = useRef(null)
   const [inView, setInView] = useState(false)
 
   useEffect(() => {
-    if (inView) return
+    if (inView || !ref.current) return
 
-    const check = () => {
-      const el = ref.current
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight
-      if (rect.top < viewportHeight - marginPx && rect.bottom > 0) {
-        setInView(true)
-      }
-    }
-
-    check()
-    window.addEventListener('scroll', check, { passive: true })
-    window.addEventListener('resize', check)
-    // Belt-and-suspenders: also poll on an interval. Covers content that
-    // shifts position without a scroll/resize event (e.g. the video or a
-    // sibling reveal animation changing layout) and any mobile browser
-    // quirk where the scroll event itself doesn't fire as expected.
-    const interval = setInterval(check, POLL_MS)
+    ensureStarted()
+    const entry = { el: ref.current, marginPx, onVisible: () => setInView(true) }
+    watched.add(entry)
+    checkAll()
 
     return () => {
-      window.removeEventListener('scroll', check)
-      window.removeEventListener('resize', check)
-      clearInterval(interval)
+      watched.delete(entry)
     }
   }, [inView, marginPx])
 

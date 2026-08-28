@@ -10,12 +10,6 @@ const FINAL_HOLD = 1600
 const TRANSITION = { duration: 0.55, ease: [0.16, 1, 0.3, 1] }
 const OVERLAY_FADE = 0.7
 
-// How long the intro is on screen in the typical case, so components
-// underneath (Header, Hero) can delay their own mount animation past this
-// point — otherwise those animations finish while still hidden behind the
-// opaque intro overlay, and appear to "not animate at all" once revealed.
-export const INTRO_REVEAL_DELAY = (WORDS.length * WORD_HOLD + FINAL_HOLD) / 1000 + OVERLAY_FADE
-
 const glow = { textShadow: '0 0 40px rgba(255,255,255,0.4)' }
 
 const flip = {
