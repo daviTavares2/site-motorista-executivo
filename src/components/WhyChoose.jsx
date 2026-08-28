@@ -27,7 +27,7 @@ function WhyChoose() {
             className="text-accent"
             style={{ textShadow: '0 0 30px rgba(255,255,255,0.35)' }}
           />{' '}
-          , a nossa prioridade continua a mesma: {' '}
+             , a nossa prioridade continua a mesma: {' '}
           <span
             className="text-accent"
             style={{ textShadow: '0 0 30px rgba(255,255,255,0.35)' }}
