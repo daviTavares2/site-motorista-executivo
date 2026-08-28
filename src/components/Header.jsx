@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { MessageCircle, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { INTRO_REVEAL_DELAY } from './IntroSplash'
 import { DRIVER, WHATSAPP_LINK } from '../lib/constants'
 
 const NAV_LINKS = [
@@ -32,7 +33,7 @@ function Header() {
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6, delay: INTRO_REVEAL_DELAY, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300 ${
         scrolled
           ? 'border-b border-border bg-bg/80 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-lg'

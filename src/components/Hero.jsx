@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, MessageCircle, Star } from 'lucide-react'
+import { INTRO_REVEAL_DELAY } from './IntroSplash'
 import { DRIVER, WHATSAPP_LINK } from '../lib/constants'
 
 function Hero() {
@@ -28,7 +29,7 @@ function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: INTRO_REVEAL_DELAY }}
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-accent"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -38,7 +39,7 @@ function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.6, delay: INTRO_REVEAL_DELAY + 0.1 }}
             className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl xl:text-[4rem]"
           >
             <span className="block">Te levo</span>
@@ -53,7 +54,7 @@ function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: INTRO_REVEAL_DELAY + 0.2 }}
             className="mt-6 max-w-md text-base text-text-secondary sm:text-lg"
           >
             7 anos de experiência, {DRIVER.stats.trips}{' '}
@@ -64,7 +65,7 @@ function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: INTRO_REVEAL_DELAY + 0.3 }}
             className="mt-9 flex flex-wrap items-center gap-4"
           >
             <motion.a
@@ -96,7 +97,7 @@ function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: INTRO_REVEAL_DELAY + 0.4 }}
             className="mt-12 flex items-center gap-4"
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent/15 ring-1 ring-accent/30">
@@ -117,7 +118,7 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: INTRO_REVEAL_DELAY + 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="relative mx-auto w-full max-w-md lg:max-w-none"
         >
           <div className="absolute -inset-6 rounded-[2rem] bg-accent/15 blur-3xl" />
@@ -138,7 +139,7 @@ function Hero() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: [0, -8, 0] }}
             transition={{
-              opacity: { delay: 0.9, duration: 0.5 },
+              opacity: { delay: INTRO_REVEAL_DELAY + 0.9, duration: 0.5 },
               y: { delay: 1.4, duration: 4, repeat: Infinity, ease: 'easeInOut' },
             }}
             className="absolute -right-4 top-8 flex items-center gap-2 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow-lg backdrop-blur"
@@ -154,7 +155,7 @@ function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: [0, 8, 0] }}
             transition={{
-              opacity: { delay: 1.1, duration: 0.5 },
+              opacity: { delay: INTRO_REVEAL_DELAY + 1.1, duration: 0.5 },
               y: { delay: 1.6, duration: 4.5, repeat: Infinity, ease: 'easeInOut' },
             }}
             className="absolute -left-4 bottom-8 flex items-center gap-2 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow-lg backdrop-blur"
