@@ -10,7 +10,7 @@ const ATTRIBUTES = [
   { icon: ShieldCheck, label: 'Atendimento 24h' },
 ]
 
-const QUOTE_STATS = ['mais de 22 mil viagens   ', ' + de 10 mil avaliações ']
+const QUOTE_STATS = ['mais de 22 mil viagens', '+ de 10 mil avaliações']
 
 function WhyChoose() {
   return (
@@ -21,13 +21,13 @@ function WhyChoose() {
           delay={0}
           className="text-2xl font-medium leading-snug tracking-tight text-text sm:text-3xl"
         >
-          " Após 7 anos e{' '}
+          "Após 7 anos e{' '}
           <TypeCycle
             words={QUOTE_STATS}
             className="text-accent"
             style={{ textShadow: '0 0 30px rgba(255,255,255,0.35)' }}
-          />{' '}
-              , a nossa prioridade continua a mesma: {' '}
+          />
+          , a nossa prioridade continua a mesma:{' '}
           <span
             className="text-accent"
             style={{ textShadow: '0 0 30px rgba(255,255,255,0.35)' }}
