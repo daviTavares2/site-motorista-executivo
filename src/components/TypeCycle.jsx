@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const TYPING_SPEED = 55
 const DELETING_SPEED = 30
@@ -9,15 +9,6 @@ function TypeCycle({ words, className = '', style }) {
   const [wordIndex, setWordIndex] = useState(0)
   const [text, setText] = useState('')
   const [phase, setPhase] = useState('typing')
-  const [maxWidth, setMaxWidth] = useState(null)
-  const measureRefs = useRef([])
-
-  // Reserve the width of the longest word up front so the surrounding
-  // sentence never shifts as this text types/deletes.
-  useLayoutEffect(() => {
-    const widths = measureRefs.current.map((el) => el?.offsetWidth || 0)
-    setMaxWidth(Math.max(...widths, 0))
-  }, [words])
 
   useEffect(() => {
     const currentWord = words[wordIndex]
@@ -50,24 +41,22 @@ function TypeCycle({ words, className = '', style }) {
 
   return (
     <span
-      className={`relative inline-block text-left align-baseline ${className}`}
-      style={{ ...style, width: maxWidth ? `${maxWidth}px` : 'auto' }}
+      className={`inline-grid text-left align-baseline ${className}`}
+      style={style}
     >
-      <span className="pointer-events-none invisible absolute left-0 top-0" aria-hidden="true">
-        {words.map((word, i) => (
-          <span
-            key={word}
-            ref={(el) => {
-              measureRefs.current[i] = el
-            }}
-            className="absolute left-0 top-0 whitespace-nowrap"
-          >
-            {word}
-          </span>
-        ))}
-      </span>
-
-      <span className="whitespace-nowrap">{text}</span>
+      {/* Every word stacked in the same grid cell reserves the width of the
+          widest one, using the browser's own text layout — not a JS-measured
+          pixel value that can go stale once the real webfont swaps in. */}
+      {words.map((word) => (
+        <span
+          key={word}
+          aria-hidden="true"
+          className="invisible col-start-1 row-start-1 whitespace-nowrap"
+        >
+          {word}
+        </span>
+      ))}
+      <span className="col-start-1 row-start-1 whitespace-nowrap">{text}</span>
     </span>
   )
 }
