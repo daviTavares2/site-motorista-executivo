@@ -56,7 +56,7 @@ function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-md text-base text-text-secondary sm:text-lg"
           >
-            {DRIVER.stats.years} anos de experiência, {DRIVER.stats.trips}{' '}
+            7 anos de experiência, {DRIVER.stats.trips}{' '}
             viagens realizadas e atendimento {DRIVER.stats.availability} —
             sempre com o mesmo motorista.
           </motion.p>
