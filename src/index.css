@@ -21,6 +21,37 @@
   }
 }
 
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 5s ease-in-out infinite;
+}
+
+/* Unconditional fallback for the intro overlay (IntroSplash.jsx): fades it
+   out and disables it a few seconds after paint no matter what happens in
+   JS — an ad/content blocker, a crash, an unsupported API, a font that
+   never loads. CSS animations override inline styles in the cascade, so
+   this always wins even if the component's own JS-driven fade never runs,
+   guaranteeing the real site underneath is reachable. */
+@keyframes intro-force-hide {
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.intro-force-hide {
+  animation: intro-force-hide 0.4s ease-out 6s forwards;
+}
+
 body {
   margin: 0;
   background: var(--color-bg);

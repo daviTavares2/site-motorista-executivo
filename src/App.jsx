@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import CorporateBenefits from './components/CorporateBenefits'
+import ErrorBoundary from './components/ErrorBoundary'
 import FAQ from './components/FAQ'
 import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
@@ -14,32 +14,28 @@ import WhatsAppFloat from './components/WhatsAppFloat'
 import WhyChoose from './components/WhyChoose'
 
 function App() {
-  const [introDone, setIntroDone] = useState(false)
-
   return (
     <div id="top" className="min-h-screen bg-bg text-text">
-      {!introDone && <IntroSplash onFinish={() => setIntroDone(true)} />}
+      <ErrorBoundary>
+        <Header />
 
-      {introDone && (
-        <>
-          <Header />
+        <main>
+          <Hero />
+          <TrustBar />
+          <WhyChoose />
+          <Testimonials />
+          <HowItWorks />
+          <Services />
+          <CorporateBenefits />
+          <FAQ />
+          <FinalCTA />
+        </main>
 
-          <main>
-            <Hero />
-            <TrustBar />
-            <WhyChoose />
-            <Testimonials />
-            <HowItWorks />
-            <Services />
-            <CorporateBenefits />
-            <FAQ />
-            <FinalCTA />
-          </main>
+        <Footer />
+        <WhatsAppFloat />
+      </ErrorBoundary>
 
-          <Footer />
-          <WhatsAppFloat />
-        </>
-      )}
+      <IntroSplash />
     </div>
   )
 }

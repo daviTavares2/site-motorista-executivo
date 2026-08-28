@@ -17,10 +17,9 @@ function Hero() {
             'radial-gradient(ellipse 60% 55% at 50% 0%, black 40%, transparent 100%)',
         }}
       />
-      <motion.div
-        className="pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-accent/25 blur-[140px]"
-        animate={{ opacity: [0.5, 0.85, 0.5] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      <div
+        className="glow-pulse pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-accent/25 blur-[140px]"
+        style={{ animationDuration: '6s' }}
       />
       <div className="pointer-events-none absolute bottom-[-15%] left-[-10%] h-[420px] w-[420px] rounded-full bg-accent/10 blur-[140px]" />
 

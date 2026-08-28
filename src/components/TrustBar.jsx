@@ -17,10 +17,9 @@ const STATS = [
 function TrustBar() {
   return (
     <section className="relative overflow-hidden border-y border-border bg-bg-alt/50 py-14">
-      <motion.div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[120px]"
-        animate={{ opacity: [0.4, 0.75, 0.4] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      <div
+        className="glow-pulse pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[120px]"
+        style={{ animationDuration: '5s' }}
       />
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 lg:grid-cols-4 lg:px-10">

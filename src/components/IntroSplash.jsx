@@ -23,77 +23,40 @@ const flipStyle = {
   transformOrigin: 'center bottom',
 }
 
-const FONT_CHECKS = ['700 1em Montserrat', '800 1em Montserrat']
-const FONT_TIMEOUT = 1200
-
-function IntroSplash({ onFinish }) {
+// This overlay sits on top of the real site (which is always rendered
+// underneath — see App.jsx) purely as a decorative reveal animation. It
+// hides itself two independent ways on purpose:
+//  1. The `done` state below, driven by the word-cycle timers — the
+//     intended smooth cross-fade.
+//  2. The `intro-force-hide` CSS animation (defined in index.css), which
+//     unconditionally fades and disables this overlay a few seconds later
+//     no matter what — even if this component's JS never runs at all (ad
+//     blocker, crash, unsupported API, slow/failed font load). CSS
+//     animations always win over inline styles, so this is a hard
+//     guarantee independent of React.
+// Because of that guarantee, nothing here needs to be bulletproof: if it
+// breaks, the visitor sees the intro linger a couple seconds longer, not a
+// permanently blank page.
+function IntroSplash() {
   const [stepIndex, setStepIndex] = useState(0)
   const [done, setDone] = useState(false)
-  const [ready, setReady] = useState(false)
 
   const showingPrefix = stepIndex < WORDS.length
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [])
-
-  // Wait for the Montserrat webfont to actually be loaded before showing any
-  // text — on a slow connection (common on mobile), Safari/WebKit renders a
-  // fallback font with different metrics first, which breaks this layout
-  // (words overlap/wrap wrong) and can look like the page is broken.
-  useEffect(() => {
-    let cancelled = false
-    const markReady = () => {
-      if (!cancelled) setReady(true)
-    }
-
-    // Some mobile in-app browsers (Instagram/WhatsApp webviews, etc.) expose
-    // a `document.fonts` object with a missing or non-conformant `load()`,
-    // which can throw synchronously instead of rejecting a promise — that
-    // throw would otherwise skip the `.then` below and strand the splash.
-    try {
-      if (typeof document !== 'undefined' && typeof document.fonts?.load === 'function') {
-        Promise.race([
-          Promise.all(FONT_CHECKS.map((font) => document.fonts.load(font))),
-          new Promise((resolve) => setTimeout(resolve, FONT_TIMEOUT)),
-        ]).then(markReady, markReady)
-      } else {
-        markReady()
-      }
-    } catch {
-      markReady()
-    }
-
-    // Absolute safety net: whatever the browser does with font loading above,
-    // never let the splash hide the site for longer than this.
-    const hardFallback = setTimeout(markReady, FONT_TIMEOUT + 1500)
-
-    return () => {
-      cancelled = true
-      clearTimeout(hardFallback)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!ready) return
-
     const isLast = stepIndex === WORDS.length
     const delay = isLast ? FINAL_HOLD : WORD_HOLD
 
     const t = setTimeout(() => {
       if (isLast) {
         setDone(true)
-        setTimeout(onFinish, 350)
       } else {
         setStepIndex((i) => i + 1)
       }
     }, delay)
 
     return () => clearTimeout(t)
-  }, [ready, stepIndex, onFinish])
+  }, [stepIndex])
 
   const wordKey = showingPrefix ? WORDS[stepIndex] : FINAL_TEXT
   const wordText = showingPrefix ? WORDS[stepIndex] : FINAL_TEXT
@@ -103,38 +66,21 @@ function IntroSplash({ onFinish }) {
       animate={{ opacity: done ? 0 : 1 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       style={{ pointerEvents: done ? 'none' : 'auto' }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-bg"
+      className="intro-force-hide fixed inset-0 z-[100] flex items-center justify-center bg-bg"
     >
-      <motion.div
-        className="pointer-events-none absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[140px]"
-        animate={{ opacity: [0.4, 0.7, 0.4] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      <div
+        className="glow-pulse pointer-events-none absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[140px]"
+        style={{ animationDuration: '4s' }}
       />
 
-      {ready && (
-        <p
-          className="relative flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6 py-10 text-center text-4xl font-bold tracking-tight text-text sm:text-5xl lg:text-6xl"
-          style={{ perspective: 900 }}
-        >
-          <AnimatePresence>
-            {showingPrefix && (
-              <motion.span
-                key="prefix"
-                initial={flip.initial}
-                animate={flip.animate}
-                exit={flip.exit}
-                transition={TRANSITION}
-                style={flipStyle}
-                className="inline-block"
-              >
-                {PREFIX}
-              </motion.span>
-            )}
-          </AnimatePresence>
-
-          <AnimatePresence mode="wait">
+      <p
+        className="relative flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6 py-10 text-center text-4xl font-bold tracking-tight text-text sm:text-5xl lg:text-6xl"
+        style={{ perspective: 900 }}
+      >
+        <AnimatePresence>
+          {showingPrefix && (
             <motion.span
-              key={wordKey}
+              key="prefix"
               initial={flip.initial}
               animate={flip.animate}
               exit={flip.exit}
@@ -142,11 +88,25 @@ function IntroSplash({ onFinish }) {
               style={flipStyle}
               className="inline-block"
             >
-              {wordText}
+              {PREFIX}
             </motion.span>
-          </AnimatePresence>
-        </p>
-      )}
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={wordKey}
+            initial={flip.initial}
+            animate={flip.animate}
+            exit={flip.exit}
+            transition={TRANSITION}
+            style={flipStyle}
+            className="inline-block"
+          >
+            {wordText}
+          </motion.span>
+        </AnimatePresence>
+      </p>
     </motion.div>
   )
 }
