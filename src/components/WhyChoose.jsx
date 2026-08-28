@@ -34,7 +34,7 @@ function WhyChoose() {
           >
             te levar com conforto, segurança e pontualidade
           </span>
-          — sempre com o mesmo motorista, sem surpresas."
+            , sempre com o mesmo motorista, sem surpresas."
         </Reveal>
 
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
