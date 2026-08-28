@@ -18,10 +18,10 @@ function Hero() {
         }}
       />
       <div
-        className="glow-pulse pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-accent/25 blur-[140px]"
+        className="glow-pulse pointer-events-none absolute -top-40 right-[-10%] h-[380px] w-[380px] rounded-full bg-accent/25 blur-[80px]"
         style={{ animationDuration: '6s' }}
       />
-      <div className="pointer-events-none absolute bottom-[-15%] left-[-10%] h-[420px] w-[420px] rounded-full bg-accent/10 blur-[140px]" />
+      <div className="pointer-events-none absolute bottom-[-15%] left-[-10%] h-[320px] w-[320px] rounded-full bg-accent/10 blur-[80px]" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2 lg:gap-12 lg:px-10">
         <div>
@@ -120,7 +120,7 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="relative mx-auto w-full max-w-md lg:max-w-none"
         >
-          <div className="absolute -inset-6 rounded-[2rem] bg-accent/15 blur-3xl" />
+          <div className="absolute -inset-4 rounded-[2rem] bg-accent/15 blur-2xl" />
 
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-border bg-card">
             <video
@@ -141,7 +141,7 @@ function Hero() {
               opacity: { delay: 0.9, duration: 0.5 },
               y: { delay: 1.4, duration: 4, repeat: Infinity, ease: 'easeInOut' },
             }}
-            className="absolute -right-4 top-8 flex items-center gap-2 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow-lg backdrop-blur"
+            className="absolute -right-4 top-8 flex items-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 shadow-lg"
           >
             <Clock size={16} className="text-accent" />
             <div className="text-xs">
@@ -157,7 +157,7 @@ function Hero() {
               opacity: { delay: 1.1, duration: 0.5 },
               y: { delay: 1.6, duration: 4.5, repeat: Infinity, ease: 'easeInOut' },
             }}
-            className="absolute -left-4 bottom-8 flex items-center gap-2 rounded-2xl border border-border bg-card/95 px-4 py-3 shadow-lg backdrop-blur"
+            className="absolute -left-4 bottom-8 flex items-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 shadow-lg"
           >
             <div className="flex items-center gap-1 text-sm font-semibold text-text">
               <Star size={13} className="fill-accent text-accent" /> Superestrela

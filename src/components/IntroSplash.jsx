@@ -70,7 +70,7 @@ function IntroSplash() {
       className="intro-force-hide fixed inset-0 z-[100] flex items-center justify-center bg-bg"
     >
       <div
-        className="glow-pulse pointer-events-none absolute h-[400px] w-[400px] rounded-full bg-accent/10 blur-[140px]"
+        className="glow-pulse pointer-events-none absolute h-[300px] w-[300px] rounded-full bg-accent/10 blur-[80px]"
         style={{ animationDuration: '4s' }}
       />
 

@@ -18,7 +18,7 @@ function TrustBar() {
   return (
     <section className="relative overflow-hidden border-y border-border bg-bg-alt/50 py-14">
       <div
-        className="glow-pulse pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[120px]"
+        className="glow-pulse pointer-events-none absolute left-1/2 top-1/2 h-[220px] w-[440px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[70px]"
         style={{ animationDuration: '5s' }}
       />
 
