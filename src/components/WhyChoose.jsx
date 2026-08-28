@@ -19,7 +19,7 @@ function WhyChoose() {
         <Reveal
           as="blockquote"
           delay={0}
-          className="text-2xl font-medium leading-snug tracking-tight text-text sm:text-3xl"
+          className="text-left text-2xl font-medium leading-snug tracking-tight text-text sm:text-3xl"
         >
           "Após 7 anos e{' '}
           <TypeCycle
