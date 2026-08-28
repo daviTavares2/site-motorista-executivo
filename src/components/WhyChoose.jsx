@@ -1,6 +1,5 @@
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Clock3, Repeat, ShieldCheck, Sparkles } from 'lucide-react'
-import { useRef } from 'react'
 import { fadeUpDelay } from '../lib/motion'
 import TypeCycle from './TypeCycle'
 
@@ -14,9 +13,6 @@ const ATTRIBUTES = [
 const QUOTE_STATS = ['mais de 22 mil viagens', '+ de 10 mil avaliações']
 
 function WhyChoose() {
-  const gridRef = useRef(null)
-  const gridInView = useInView(gridRef, { once: true, margin: '-80px' })
-
   return (
     <section id="sobre" className="relative py-24 lg:py-32">
       <div className="mx-auto max-w-4xl px-6 text-center lg:px-10">
@@ -40,14 +36,11 @@ function WhyChoose() {
           — sempre com o mesmo motorista, sem surpresas."
         </motion.blockquote>
 
-        <div
-          ref={gridRef}
-          className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4"
-        >
+        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {ATTRIBUTES.map(({ icon: Icon, label }, i) => (
             <motion.div key={label} {...fadeUpDelay(0.12 + i * 0.08)} className="h-full">
               <motion.div
-                animate={gridInView ? { y: [0, -8, 0] } : {}}
+                animate={{ y: [0, -8, 0] }}
                 transition={{
                   duration: 3.2,
                   repeat: Infinity,

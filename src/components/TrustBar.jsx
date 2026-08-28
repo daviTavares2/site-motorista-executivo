@@ -27,8 +27,7 @@ function TrustBar() {
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 24, scale: 0.85 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: '-80px' }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
               duration: 0.6,
               delay: i * 0.1,
@@ -49,8 +48,7 @@ function TrustBar() {
             </p>
             <motion.span
               initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, margin: '-80px' }}
+              animate={{ scaleX: 1 }}
               transition={{ duration: 0.6, delay: i * 0.1 + 1.4 }}
               className="mx-auto mt-3 block h-px w-8 origin-center bg-accent/50"
             />
