@@ -1,16 +1,7 @@
-import { motion, useInView } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useInViewport } from '../lib/useInViewport'
 
 const EASE = [0.16, 1, 0.3, 1]
-
-// A "reveal-on-scroll, but with a guarantee" wrapper: it uses framer-motion's
-// IntersectionObserver-backed useInView for the nice fade-in-as-you-scroll
-// effect, but never trusts it completely — on some mobile browsers/webviews
-// that observer can silently never fire, which used to leave whole sections
-// stuck at opacity: 0 forever. The timer below forces the reveal after a few
-// seconds regardless, so content is always guaranteed to show up eventually
-// even if the scroll-triggered version never plays.
-const FALLBACK_MS = 3000
 
 function Reveal({
   as = 'div',
@@ -24,16 +15,7 @@ function Reveal({
   children,
   ...rest
 }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [fallback, setFallback] = useState(false)
-
-  useEffect(() => {
-    const t = setTimeout(() => setFallback(true), FALLBACK_MS)
-    return () => clearTimeout(t)
-  }, [])
-
-  const visible = inView || fallback
+  const [ref, visible] = useInViewport()
   const MotionTag = motion[as]
 
   return (
