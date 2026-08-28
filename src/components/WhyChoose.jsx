@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Clock3, Repeat, ShieldCheck, Sparkles } from 'lucide-react'
-import { fadeUpDelay } from '../lib/motion'
+import Reveal from './Reveal'
 import TypeCycle from './TypeCycle'
 
 const ATTRIBUTES = [
@@ -16,8 +16,9 @@ function WhyChoose() {
   return (
     <section id="sobre" className="relative py-24 lg:py-32">
       <div className="mx-auto max-w-4xl px-6 text-center lg:px-10">
-        <motion.blockquote
-          {...fadeUpDelay(0)}
+        <Reveal
+          as="blockquote"
+          delay={0}
           className="text-2xl font-medium leading-snug tracking-tight text-text sm:text-3xl"
         >
           "Sete anos e{' '}
@@ -34,11 +35,11 @@ function WhyChoose() {
             te levar com conforto, segurança e pontualidade
           </span>
           — sempre com o mesmo motorista, sem surpresas."
-        </motion.blockquote>
+        </Reveal>
 
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {ATTRIBUTES.map(({ icon: Icon, label }, i) => (
-            <motion.div key={label} {...fadeUpDelay(0.12 + i * 0.08)} className="h-full">
+            <Reveal key={label} delay={0.12 + i * 0.08} className="h-full">
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{
@@ -54,7 +55,7 @@ function WhyChoose() {
                 </span>
                 <p className="text-sm font-medium text-text">{label}</p>
               </motion.div>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

@@ -1,7 +1,6 @@
-import { motion } from 'framer-motion'
 import { ArrowRight, Briefcase, CalendarClock, Plane, Route } from 'lucide-react'
 import { whatsappLinkWithMessage } from '../lib/constants'
-import { fadeUpDelay } from '../lib/motion'
+import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 
 const SERVICES = [
@@ -42,9 +41,9 @@ function Services() {
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map(({ icon: Icon, title, description, bullets }, i) => (
-            <motion.div
+            <Reveal
               key={title}
-              {...fadeUpDelay(i * 0.1)}
+              delay={i * 0.1}
               className="flex flex-col rounded-2xl border border-border bg-card p-6 transition-colors hover:border-accent/30"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/10 text-accent ring-1 ring-accent/25">
@@ -81,7 +80,7 @@ function Services() {
                   className="transition-transform group-hover:translate-x-1"
                 />
               </a>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

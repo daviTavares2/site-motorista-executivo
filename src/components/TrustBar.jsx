@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import CountUp from './CountUp'
+import Reveal from './Reveal'
 import { DRIVER } from '../lib/constants'
 
 const STATS = [
@@ -24,15 +24,12 @@ function TrustBar() {
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 lg:grid-cols-4 lg:px-10">
         {STATS.map((stat, i) => (
-          <motion.div
+          <Reveal
             key={stat.label}
+            delay={i * 0.1}
             initial={{ opacity: 0, y: 24, scale: 0.85 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{
-              duration: 0.6,
-              delay: i * 0.1,
-              ease: [0.34, 1.56, 0.64, 1],
-            }}
+            target={{ opacity: 1, y: 0, scale: 1 }}
+            ease={[0.34, 1.56, 0.64, 1]}
             className="relative text-center"
           >
             <p className="text-3xl font-bold tracking-tight text-text sm:text-4xl">
@@ -46,13 +43,14 @@ function TrustBar() {
             <p className="mt-1 text-xs uppercase tracking-widest text-text-secondary sm:text-sm">
               {stat.label}
             </p>
-            <motion.span
+            <Reveal
+              as="span"
+              delay={i * 0.1 + 1.4}
               initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.6, delay: i * 0.1 + 1.4 }}
+              target={{ scaleX: 1 }}
               className="mx-auto mt-3 block h-px w-8 origin-center bg-accent/50"
             />
-          </motion.div>
+          </Reveal>
         ))}
       </div>
     </section>

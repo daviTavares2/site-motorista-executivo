@@ -1,7 +1,6 @@
-import { motion } from 'framer-motion'
 import { Quote } from 'lucide-react'
 import { DRIVER } from '../lib/constants'
-import { fadeUpDelay } from '../lib/motion'
+import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 
 const TRACK_REVIEWS = [...DRIVER.reviews, ...DRIVER.reviews]
@@ -17,10 +16,7 @@ function Testimonials() {
         />
       </div>
 
-      <motion.div
-        {...fadeUpDelay(0.1)}
-        className="group relative mt-14 overflow-hidden"
-      >
+      <Reveal delay={0.1} className="group relative mt-14 overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-bg to-transparent sm:w-40" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-bg to-transparent sm:w-40" />
 
@@ -38,13 +34,10 @@ function Testimonials() {
             </div>
           ))}
         </div>
-      </motion.div>
+      </Reveal>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <motion.div
-          {...fadeUpDelay(0.3)}
-          className="mt-10 flex flex-wrap justify-center gap-3"
-        >
+        <Reveal delay={0.3} className="mt-10 flex flex-wrap justify-center gap-3">
           {DRIVER.badges.map((badge) => (
             <span
               key={badge.label}
@@ -54,7 +47,7 @@ function Testimonials() {
               {badge.label}
             </span>
           ))}
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
 import { WHATSAPP_LINK } from '../lib/constants'
-import { fadeUpDelay } from '../lib/motion'
+import Reveal from './Reveal'
 
 const INITIAL_FORM = { name: '', company: '', phone: '' }
 
@@ -39,7 +39,7 @@ function FinalCTA() {
   return (
     <section id="contato" className="py-24 lg:py-32">
       <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-2 lg:px-10">
-        <motion.div {...fadeUpDelay(0)}>
+        <Reveal delay={0}>
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-text">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Solicitar cotação
@@ -55,10 +55,11 @@ function FinalCTA() {
             <CheckCircle2 size={16} className="text-accent" />
             Sem compromisso, sem burocracia.
           </div>
-        </motion.div>
+        </Reveal>
 
-        <motion.form
-          {...fadeUpDelay(0.12)}
+        <Reveal
+          as="form"
+          delay={0.12}
           onSubmit={handleSubmit}
           noValidate
           className="rounded-3xl border border-border bg-card p-7 sm:p-8"
@@ -118,7 +119,7 @@ function FinalCTA() {
               Solicitar cotação
             </motion.button>
           </div>
-        </motion.form>
+        </Reveal>
       </div>
     </section>
   )

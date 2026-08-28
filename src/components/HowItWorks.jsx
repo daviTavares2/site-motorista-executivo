@@ -1,6 +1,5 @@
-import { motion } from 'framer-motion'
 import { WHATSAPP_LINK } from '../lib/constants'
-import { fadeUpDelay } from '../lib/motion'
+import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 
 const STEPS = [
@@ -33,7 +32,7 @@ function HowItWorks() {
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((step, i) => (
-            <motion.div key={step.title} {...fadeUpDelay(i * 0.1)} className="relative">
+            <Reveal key={step.title} delay={i * 0.1} className="relative">
               <span
                 className="text-6xl font-bold text-transparent"
                 style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.18)' }}
@@ -46,11 +45,11 @@ function HowItWorks() {
               <p className="mt-2 text-sm text-text-secondary">
                 {step.description}
               </p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 
-        <motion.div {...fadeUpDelay(0.4)} className="mt-14 text-center">
+        <Reveal delay={0.4} className="mt-14 text-center">
           <a
             href={WHATSAPP_LINK}
             target="_blank"
@@ -59,7 +58,7 @@ function HowItWorks() {
           >
             Solicitar motorista
           </a>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

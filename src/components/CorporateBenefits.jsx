@@ -1,6 +1,5 @@
-import { motion } from 'framer-motion'
 import { ArrowRight, CalendarCheck, ShieldCheck, UserCheck } from 'lucide-react'
-import { fadeUpDelay } from '../lib/motion'
+import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 
 const BENEFITS = [
@@ -36,9 +35,9 @@ function CorporateBenefits() {
 
         <div className="mt-16 grid gap-6 sm:grid-cols-3">
           {BENEFITS.map(({ icon: Icon, title, description }, i) => (
-            <motion.div
+            <Reveal
               key={title}
-              {...fadeUpDelay(i * 0.1)}
+              delay={i * 0.1}
               className="rounded-2xl border border-border bg-card p-7"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/10 text-accent ring-1 ring-accent/25">
@@ -60,7 +59,7 @@ function CorporateBenefits() {
                   className="transition-transform group-hover:translate-x-1"
                 />
               </a>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>
