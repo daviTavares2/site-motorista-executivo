@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const TYPING_SPEED = 55
 const DELETING_SPEED = 30
@@ -10,6 +9,15 @@ function TypeCycle({ words, className = '', style }) {
   const [wordIndex, setWordIndex] = useState(0)
   const [text, setText] = useState('')
   const [phase, setPhase] = useState('typing')
+  const [maxWidth, setMaxWidth] = useState(null)
+  const measureRefs = useRef([])
+
+  // Reserve the width of the longest word up front so the surrounding
+  // sentence never shifts as this text types/deletes.
+  useLayoutEffect(() => {
+    const widths = measureRefs.current.map((el) => el?.offsetWidth || 0)
+    setMaxWidth(Math.max(...widths, 0))
+  }, [words])
 
   useEffect(() => {
     const currentWord = words[wordIndex]
@@ -42,16 +50,24 @@ function TypeCycle({ words, className = '', style }) {
 
   return (
     <span
-      className={`relative inline-block whitespace-nowrap text-left align-baseline ${className}`}
-      style={style}
+      className={`relative inline-block text-left align-baseline ${className}`}
+      style={{ ...style, width: maxWidth ? `${maxWidth}px` : 'auto' }}
     >
-      {text}
-      <motion.span
-        animate={{ opacity: [1, 1, 0, 0] }}
-        transition={{ duration: 0.9, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
-        className="ml-0.5 inline-block w-[2px] translate-y-[0.1em] bg-current align-middle"
-        style={{ height: '0.85em' }}
-      />
+      <span className="pointer-events-none invisible absolute left-0 top-0" aria-hidden="true">
+        {words.map((word, i) => (
+          <span
+            key={word}
+            ref={(el) => {
+              measureRefs.current[i] = el
+            }}
+            className="absolute left-0 top-0 whitespace-nowrap"
+          >
+            {word}
+          </span>
+        ))}
+      </span>
+
+      <span className="whitespace-nowrap">{text}</span>
     </span>
   )
 }
