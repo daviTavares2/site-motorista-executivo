@@ -10,7 +10,7 @@ const ATTRIBUTES = [
   { icon: ShieldCheck, label: 'Atendimento 24h' },
 ]
 
-const QUOTE_STATS = ['mais de 22 mil viagens', ' + de 10 mil avaliações']
+const QUOTE_STATS = ['mais de 22 mil viagens   ', ' + de 10 mil avaliações ']
 
 function WhyChoose() {
   return (
