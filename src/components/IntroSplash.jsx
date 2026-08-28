@@ -54,7 +54,7 @@ function IntroSplash({ onFinish }) {
       Promise.race([
         Promise.all(FONT_CHECKS.map((font) => document.fonts.load(font))),
         new Promise((resolve) => setTimeout(resolve, FONT_TIMEOUT)),
-      ]).then(markReady)
+      ]).then(markReady, markReady)
     } else {
       markReady()
     }
